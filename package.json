@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
+    "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jest-dom": "^3.9.0",
     "eslint-plugin-testing-library": "^4.3.0",
     "msw": "^0.28.2",

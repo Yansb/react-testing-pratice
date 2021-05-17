@@ -1,27 +1,35 @@
-import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { render, screen } from '../../../test-utils/testing-library-utils';
 
 import Options from '../Options';
+import { OrderDetailsProvider } from '../../../contexts/OrderDetails';
 
 describe('Options test', () => {
   it('should displays image for each scoop option from server', async () => {
     render(<Options optionType="scoops" />);
 
-    const scoopImages = await screen.findAllByRole('img', {name: /scoop$/i});
+    const scoopImages = await screen.findAllByRole('img', { name: /scoop$/i });
     expect(scoopImages).toHaveLength(2);
 
-    const altText = scoopImages.map(element => element.alt);
+    const altText = scoopImages.map((element) => element.alt);
     expect(altText).toEqual(['Chocolate scoop', 'Vanilla scoop']);
   });
 
   it('should display image for each tooping option from the server', async () => {
-    render(<Options optionType="toppings"/>);
+    render(<Options optionType="toppings" />, {
+      wrapper: OrderDetailsProvider,
+    });
 
-    const toopingsImages = await screen.findAllByRole('img', {name: /toopings$/i});
+    const toopingsImages = await screen.findAllByRole('img', {
+      name: /toopings$/i,
+    });
     expect(toopingsImages).toHaveLength(3);
 
-    const altText = toopingsImages.map(element => element.alt);
-    expect(altText).toEqual(['Cherries toopings', 'M&Ms toopings', 'Hot fudge toopings']);
-
-  })
+    const altText = toopingsImages.map((element) => element.alt);
+    expect(altText).toEqual([
+      'Cherries toopings',
+      'M&Ms toopings',
+      'Hot fudge toopings',
+    ]);
+  });
 });
