@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Form, Popover, OverlayTrigger } from 'react-bootstrap';
 
-export function SummaryForm() {
+export function SummaryForm({ setOrderPhase }) {
   const [tcChecked, setTcChecked] = useState(false);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    setOrderPhase('completed');
+  }
 
   const popover = (
     <Popover id="popover-basic">
@@ -13,14 +18,18 @@ export function SummaryForm() {
   const checkboxLabel = (
     <span>
       I agree to
-      <OverlayTrigger trigger="hover" placement="top" overlay={popover}>
+      <OverlayTrigger
+        trigger={['hover', 'focus']}
+        placement="top"
+        overlay={popover}
+      >
         <a href="www.google.com">Terms and Conditions</a>
       </OverlayTrigger>
     </span>
   );
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Form.Group controlId="terms-and-conditions">
         <Form.Check
           type="checkbox"
