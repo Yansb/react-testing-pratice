@@ -1,10 +1,22 @@
-import React from 'react';
+/* eslint-disable operator-linebreak */
+import React, { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 
 // eslint-disable-next-line react/prop-types
 export default function ScoopOptions({ name, imagePath, updateItemCount }) {
+  const [isValid, setIsValid] = useState(true);
+
   const handleChange = (event) => {
-    updateItemCount(name, event.target.value);
+    const currentValueFloat = parseFloat(event.target.value);
+
+    const valueIsValid =
+      currentValueFloat >= 0 &&
+      currentValueFloat <= 10 &&
+      Math.floor(currentValueFloat) === currentValueFloat;
+
+    setIsValid(valueIsValid);
+
+    if (valueIsValid) updateItemCount(name, event.target.value);
   };
 
   return (
@@ -26,6 +38,7 @@ export default function ScoopOptions({ name, imagePath, updateItemCount }) {
           <Form.Control
             onChange={handleChange}
             type="number"
+            isInvalid={!isValid}
             defaultValue={0}
           />
         </Col>

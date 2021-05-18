@@ -1,18 +1,21 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import AlertBanner from '../common/AlertBanner';
+
 import { useOrderDetails } from '../../contexts/OrderDetails';
 
 export default function OrderConfirmation({ setOrderPhase }) {
   const [, , resetOrder] = useOrderDetails();
   const [orderNumber, setOrderNumber] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     axios
       .post('http://localhost:3030/order')
       .then((response) => setOrderNumber(response.data.orderNumber))
-      .catch((error) => {
-        // todo
+      .catch(() => {
+        setError(true);
       });
   }, []);
 
@@ -20,6 +23,10 @@ export default function OrderConfirmation({ setOrderPhase }) {
     resetOrder();
 
     setOrderPhase('inProgress');
+  }
+
+  if (error) {
+    return <AlertBanner message={null} variant={null} />;
   }
 
   if (orderNumber) {
